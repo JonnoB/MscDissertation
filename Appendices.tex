@@ -1,0 +1,132 @@
+\addcontentsline{toc}{chapter}{Appendices}
+
+% The \appendix command resets the chapter counter, and changes the chapter numbering scheme to capital letters.
+%\chapter{Appendices}
+\appendix
+\chapter{Plotppendix}
+\label{Plotpend}
+This appendix hold the additional plots and tables that provide contextual information useful but not essential for understanding the project.  
+
+
+\section{Additional plots}
+
+\begin{figure}
+    \centering
+    \includegraphics[width = \textwidth]{Figures/Appendix/AllNodesClustercolour}
+    \caption[All Nodes for one day]{The distinct cluster forms can be seen across all the clusters, the soup node has no pattern and is clearly just noise.}
+    \label{fig:AllNodesClustercolour}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width = \textwidth]{Figures/Appendix/AllCLustFamilies}
+    \caption[All Clusters grouped by family]{The distinct cluster forms can be seen across all the clusters, the soup node has no pattern and is clearly just noise.}
+    \label{fig:AllCLustFamilies}
+\end{figure}
+
+\section{Additional tables}
+\input{Tables/clustrans}
+
+\chapter{Visualising Large Data Sets Using Aggregated Heatmaps}
+\label{app:heatmaps}
+
+\input{XAppendCommunityDistance}
+
+\chapter{Smart Meters used in the Project}
+\label{app:smartmeters}
+
+\chapter{UK domestic Energy breakdown}
+\label{sec:Energybreakdown}
+Breaking down the domestic energy mix of the UK \cite{domesticenergyv2pdfwithnotes2005} provides more insight into why there could be the low correlations found in \ref{sec:basicconsum}. Overall the majority of UK domestic energy comes from gas, as shown in figure \ref{fig:DomElConsumFuel}, which which makes up over 70\% of the mix compared to 20\% from electricity. Across all fuel types the majority of energy is used on Space heating and water heating which accounts for more than 80\%. When looking at only electricity consumption over 60\% of electricity is used on lighting and appliances with very little on heating. The result is that turning on lights, TV's or computers will have a major effect on consumption, even though they are small relative to the base load of energy consumption overall. This supports the finding of low levels of correlation within a smart meter a minor changes in unimportant object of electricity consumption will have a major effect on the evening behaviour pattern introducing variability.
+
+\begin{figure}
+    \centering
+    \includegraphics[width =\textwidth]{Figures/Appendix/DomConsumType}
+    \caption[Domestic energy consumption by end of use]{Breaking down UK domestic energy consumption by end use across all fuel types it is clear that heating (the combination of SpaceHeating and Water), is the single biggest use of energy consumping over 84\% of all domestic electricity.}
+    \label{fig:DomConsumType}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width =\textwidth]{Figures/Appendix/DomElConsumType}
+    \caption[Domestic electricity consumption by end of use]{Breaking down domestic electricity use by end of use shows that the single biggest use of electricity in the home is lighting and Appliances, this contrasts strongly with figures \ref{fig:DomConsumType} overall breakdown of electricity use}
+    \label{fig:DomElConsumType}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width =\textwidth]{Figures/Appendix/DomElConsumFuel}
+    \caption[Energy consumption by fuel type]{The breakdown of energy fuel types shows that electricity is only 20\% of the total fuel mix gas being about 70\% of total energy consumption.}
+    \label{fig:DomElConsumFuel}
+\end{figure}
+
+\iffalse
+\chapter{Flow Chart of Data process}
+The flow charts in this section provide a visual representation of how the project was performed, figure \ref{fig:CleanFlow} shows how the data set TC1a was manipulated so that the the most high quality segments of the data were included and the remaining NA's filled. Figure \ref{fig:ProcessFlow} goes from the cleaning stage, and shows how the data is processed so that it the transition matrix and predictive model can be made and tested. The combination of both figures therefore gives a high level overview of the project from start to finish.
+
+\begin{landscape}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width =\textwidth]{Figures/Appendix/DataCleaning.png}
+    \caption[Data cleaning process]{Flow chart of the Data Cleaning Process}
+    \label{fig:CleanFlow}
+\end{figure}
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width =\textwidth]{Figures/Appendix/Thesisprocess.png}
+    \caption[Project process]{Flow chart showing the process of generating and testing the predictive model once the data has been cleaned}
+    \label{fig:ProcessFlow}
+\end{figure}
+
+
+\end{landscape}
+\fi
+
+\chapter{Colophon}
+\label{appendixlabel3}
+This document was set in the Times Roman typeface using \LaTeX\ and Bib\TeX , composed with ShareLaTeX using the UCL thesis template developed by Ian Kirker. Template Sourcecode can be obtained either through the ShareLaTeX setup wizard or on \href{https://github.com/UCL/ucl-latex-thesis-templates/blob/master/Main.tex}{UCL's Github account}.
+The compilable script for this full thesis can be found at \href{https://github.com/JonnoB}{Jonathan Bourne's Github account}. For sharpness, images were imported as PDF files, or if that was not possible as PNG's. All figures were made using R's ggplot2 package, graphs were visualised using either igraph \cite{csrdi2006} or Gephi \cite{bastian2006}.
+ % description of document, e.g. type faces, TeX used, TeXmaker, packages and things used for figures. Like a computational details section.
+% e.g. http://tex.stackexchange.com/questions/63468/what-is-best-way-to-mention-that-a-document-has-been-typeset-with-tex#63503
+
+% Side note:
+%http://tex.stackexchange.com/questions/1319/showcase-of-beautiful-typography-done-in-tex-friends
+
+\chapter{Computational Details}
+\label{TechComp}
+
+Computation was performed using cloud computing was performed on amazon EC2 instance. 
+The specifications of the instance was scaled according to computational requirements of the specific operation being performed but mostly using the instance shown in table \ref{tab:Machspec}. The image used on the EC2 was obtained from the website of \href{http://www.louisaslett.com/RStudio_AMI/}{Louis Aslett}. All calculations were performed using \href{https://www.r-project.org/}{R} version ' Bug in Your Hair' (3.3.1)  \cite{rcoreteam2016}. Packages used can be seen in section \ref{sec:packages}. Gephi version 0.9.1 was used for graph visualisation. Source code was managed using Github through Github windows desktop application version "Oh Darth, Where Art Thou?" (3.1.1.4).
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Machine   & M4 Extra Large            \\ \hline
+OS        & Ubuntu 16.04.1               \\ \hline
+Processor & 2.4 GHz Haswell processors \\ \hline
+RAM       & 16Gb                      \\ \hline
+\end{tabular}
+\caption{Machine Specifications}
+\label{tab:Machspec}
+\end{table}
+
+\begin{figure}
+    \centering
+    \includegraphics[width = \textwidth]{Figures/Appendix/SoftwareType}
+    \caption[Software use]{Breakdown of the time used on each software type in this project.}
+    \label{fig:SofwareType}
+\end{figure}
+
+
+\section{R Packages}
+\label{sec:packages}
+The Following R packages were used in this project
+
+stringr \cite{wickham2015}, lubridate \cite{grolemund2011}, data.table \cite{dowle2015}, caret \cite{fromjedwing2016}, xgboost \cite{chen2016}, e1071 \cite{meyer2015}, R.utils \cite{bengtsson2016}, Hmisc \cite{harrelljr2016}, Matrix \cite{bates2016}, ff \cite{adler2014}, zoo \cite{zeileis2005}, networkD3 \cite{gandrud2016}, igraph \cite{csardi2006} \cite{csrdi2006}, magrittr \cite{bache2014}, ggplot2 \cite{wickham2009}, tidyr \cite{wickham2016}, xtable \cite{dahl2016}, entropy \cite{hausser2014}, dplyr \cite{wickham2016a}, microbenchmark \cite{mersmann2015}.
+
+

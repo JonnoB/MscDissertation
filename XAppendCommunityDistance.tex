@@ -1,0 +1,113 @@
+\chapter{Community distance}
+\label{community distance}
+
+An interesting question to consider is the graph distance between two communities that share no common nodes. This is interesting because if two graphs share no common nodes then intuitively they shouldn't be in the same cluster of communities. Although solving this problem is beyond the scope of this project, the discussion below describes some cases and shows that probability of randomly moving from y to x decreases exponentially with a linear increase in additional connected clusters.
+
+In this section communities will be represented as nodes which are made up of a binary vector of length l (each element representing a node in the original graph ), the edges of the graph are defined by the Jaccard similarity coefficient (JSC) betwen the node vectors. A JSC of 0 means no edge for any other value, the edge distance is the JSC and it's probability weight is the normalised inverse JSC. This  is shown in equations \ref{eq:JSC} and \ref{eq:JSCdist}. In this context the distance graph is undirected and the graph of weighted probabilities is directed.
+
+\begin{equation}
+    J(A,B)=\frac{A\cap B}{A\cup B}=JSC
+    \label{eq:JSC}
+\end{equation}
+
+
+\begin{equation}
+    \frac{1}{JSC}=\frac{A\cup B}{A\cap B}=Dist
+    \label{eq:JSCdist}
+\end{equation}
+
+
+\section{Question 1:} When there are three nodes in the network what is the minimum distance between nodes $x$ and $y$, a schematic of this graph can be seen in \ref{net:threenodes}
+
+\begin{figure}[ht]
+    \centering
+    \includestandalone{Tikz/CommDist/threenodes}
+    \caption[Three Node graph]{Three node setup, showing the relationships within the network.}
+    \label{net:threenodes}
+\end{figure}
+
+As it is stated that$x_1 \notin y$, then $ y\cup S \supset y $ as $S$ must have at least 1 element of $x$ as a result $K \cup S$ (K is either of the none overlapping sets) is a proper superset of both $y$ and $x$. Fully defined $K \cup S = y \cup x \cup z$ where $z$ are all elements that are not members of either $y$ or $x$, giving in total 3 non overlapping sets.
+
+Therefore to minimise the distance from node y to S, $y \cap S$ needs to be maximised. This occurs when the entire of $y$ is found in vector $S$ making the resulting JSC between the two nodes. 
+
+\begin{equation}
+    \frac{|y|}{|x|+|y|+|z|}
+\end{equation}
+
+and the distance
+
+\begin{equation}
+    \frac{|x|+|y|+|z|}{|y|}
+\end{equation}
+
+The distance between $x$ and $y$ is then
+
+\begin{equation}
+    \frac{|x|+|y|+|z|}{|y|} +\frac{|x|+|y|+|z|}{|x|} = 2 + \frac{|z|}{|x|+|y|}+\frac{|x|^2+|y|^2}{|x||y|}
+\end{equation}
+
+Which is minimised when $z=0$ and $|x|=|y|$ making the minimum distance between two non-overlapping nodes separated by a common node 4 as shown below
+
+
+\begin{equation}
+    4 =2 + \cancel{\frac{0}{|x|+|x|}}+\frac{|x|^2+|x|^2}{|x||x|} =2+\frac{2\cancel{|x|^2}}{\cancel{|x|^2}}
+\end{equation}
+
+
+The resulting weighted graph can be seen in figure \ref{net:weight3nodes}
+
+\begin{figure}
+    \centering
+    \includestandalone{Tikz/CommDist/weighted3nodes}
+    \caption[Three Node directed graph]{The Weighted directional graph shows the probability of moving from 1 node to another}
+    \label{net:weight3nodes}
+\end{figure}
+
+\section{Question 2:}
+Building on the previous section the effect on probability of of moving from y to x is considered with more than one connecting node. What is the probability of having arrived at node x by time t or earlier given n nodes where $S=S_n$?
+
+To begin this problem, the previous problem can be considered with two overlapping nodes (where $S_1=S=2$) instead of 1. Figure \ref{net:4nodes} shows the construction of such a graph and that the distance between the identical nodes is 1 as would be expected when using inverse Jaccard distance.
+
+
+\begin{figure}[ht]
+    \centering
+    \includestandalone{Tikz/CommDist/fournodes}
+    \caption[Four node graph]{Weighted undirected graph shows the distance between the nodes of the network when there are two identical joining nodes.}
+    \label{net:4nodes}
+\end{figure}
+
+
+
+The extension of figure \ref{net:4nodes} is to increase from 2 to n identical connecting nodes. The number of edges connecting x and y to the S nodes are n each, the number of edges connecting the S nodes with each other follows the triangle number series $E=\frac{(n-1)n}{2}$. As the S nodes are all identical they can be represented as a simplified directed weighted graph as shown in figure \ref{net:Nnodesweighted}. The derivation of the weights is shown in equations \ref{eq:unormweights} to \ref{eq:stayinS}.
+
+\begin{figure}[ht]
+    \centering
+    \includestandalone{Tikz/CommDist/Nnodes}
+    \caption[N node unweighted Graph]{This undirected graph shows all the edges of a network of n+2 nodes where 2 two nodes have no overlap and n nodes are identical and whose make up means the distance between x and y is minimised. Distances have not been included but are similar to figure \ref{net:4nodes} in that links to the S nodes are length 2 and between S nodes are length 1}
+    \label{net:Nnodes}
+\end{figure}
+
+
+\begin{figure}[ht]
+    \centering
+    \includestandalone{Tikz/CommDist/Nweighted}
+    \caption[N node transfer probability]{Weighted directed graph shows the probability of transfer between nodes in the network when there are n identical joining nodes that make up the set S. There is no arrow back from x as once the random process has reached x the process halts.}
+    \label{net:Nnodesweighted}
+\end{figure}
+
+The sum of unormalised weights of S are 
+\begin{equation}
+    \frac{2+(n-1)n}{2}= \frac{1}{2}+\frac{1}{2}+\frac{(n-1)n}{2}= 1+\frac{(n-1)n}{2}
+    \label{eq:unormweights}
+\end{equation}
+
+Using this as a normalisation constant probability of transferring from S to either x or y is 
+\begin{equation}
+    \frac{1}{2+(n-1)n}=\frac{\frac{1}{\cancel{2}}}{\frac{2+(n-1)n}{\cancel{2}}}
+\end{equation}
+
+The normalised probability of stay in in the S is given by
+\begin{equation}
+        \frac{(n-1)n}{2+(n-1)n}=\frac{\frac{(n-1)n}{\cancel{2}}}{\frac{2+(n-1)n}{\cancel{2}}}
+        \label{eq:stayinS}
+\end{equation}

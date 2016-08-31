@@ -1,0 +1,84 @@
+\chapter{Description of Data}
+\label{DataDesc}
+
+
+The data used in this project comes from the CLNR (Customer Led Network Revolution) \cite{customerlednetworkrevolution}, the UK's largest smart meter research project \cite{durhamenergyinstitutecustomerlednetworkrevolutiondurhamuniversity}. The goal of the project was to find applications of smart meters that will help move the UK towards a low carbon energy economy. The project was led by the Northern Power grid collaborating with Durham University, Newcastle University, British Gas and EA technology. The project was funded by Ofgem's (Office of Gas and Electricity Markets) LCN (Low Carbon Network) Fund. More than 13,000 customers took part in the project, the majority were British Gas customers, data included the use of low carbon technologies such as solar panels, electric vehicles and heat pumps. The data is broken into 9 Data sets described in table \ref{tab:datasets} this project uses TC1a "Basic profiling of smart meter customers".
+
+\begin{table}
+\centering
+\begin{tabular}{|l|p{4cm}|l|p{2cm}|p{2cm}|}
+\hline
+Test Cell & Description                                                                              & Customer Type & Low Carbon Technology or tariff & Approximate Customer Numbers \\ \hline
+TC1a      & Basic profiling of domestic smart meter customers                                        & Domestic      & None                            & 8798                         \\ \hline
+TC1b      & Basic profiling of small and medium sized enterprise (SME) customers                     & SME           & None                            & 1783                         \\ \hline
+TC2a      & Enhanced profiling of domestic smart meter customers                                     & Domestic      & None                            & 199                          \\ \hline
+TC3       & Enhanced profiling of domestic customers with air source heat pumps                      & Domestic      & Heat Pump                       & 89                           \\ \hline
+TC5       & Enhanced profiling of domestic customers with solar photovoltaics (PV)                   & Domestic      & PV                              & 155                          \\ \hline
+TC6       & Enhanced profiling of domestic customers with Electric Vehicles (EVs)                    & Domestic      & Electric Vehicle                & 144                          \\ \hline
+TC9a      & Domestic smart meter customers on time of use tariffs                                    & Domestic      & Time of use tariff              & 665                          \\ \hline
+TC20 Auto & Domestic solar PV customers with  automatic in-premises balancing for hot water charging & Domestic      & PV                              & 98                           \\ \hline
+TC20 IHD  & Domestic solar PV customers using in-home displays for manual in-premises balancing      & Domestic      & PV                              & 147                          \\ \hline
+\end{tabular}
+\caption{Description of the data sets available from CLNR. TC1a is used in this project.}
+\label{tab:datasets}
+\end{table}
+
+The TC1a data set is comprised of 6 sub files the descriptions of which are found in table \ref{tab:TC1a}.  The dataset starts on 01-05-2011 and runs until 30-09-2013 the dataset is comprised of 8798 domestic electricity consumers whose homes are equipped with smart meters. For this work the key data set is "TrialMonitoringDataHH" which contains all the monitoring data, a detailed description of the data fields is shown in table \ref{tab:TrialDatadef}. Another important data set is "CustomerTestCellDefinition", which provides more detail on the customers; their tariff data, socio-demographic group, etc. Details on this data set can be found in table \ref{tab:CustCellDef}. It is important to note that the Trilliant and Logica smart meter providers measure time using different time zones, Logica uses GMT where as Trilliant uses Europe/London (UK local time). In this Project the Trilliant standard will be used as it reflects the as-experienced time of the user who will maintain the same local schedule (e.g Start work at 9am finish at 5pm). 
+
+CLNR Note "...it is important to note that although the parameter type is thought to be energy consumption in 30 minute period, it is not clear exactly how it was calculated and what exact period this refers to. There is also the possibility that this parameter type is ‘average power [kWh]’.", In this project it will be assumed that the data reflects the 30 minutes in question and also reflects the total power consumption within that period, however it is expected that the data may be noisier than otherwise expected due to this data collection issue.
+
+\begin{table}
+\centering
+\resizebox{\textwidth}{!}{\begin{tabular}{|l|l|l|}
+\hline
+File Name                         & Description                                     & File size Mb \\ \hline
+CustomerTestCellDefinition        & Details on the customers in the trials          & 0.8          \\ \hline
+HalfHourlyDataSource              & Smart meter provider either Trilliant or Logica & 0.1          \\ \hline
+TrialMonitoringDataDailyLogica    & Data supplied from Logica, daily data           & 370          \\ \hline
+TrialMonitoringDataDailyTrilliant & Data supplied from Trilliant, daily data        & 150          \\ \hline
+TrialMonitoringDataHH             & The monitoring data at half hour intervals      & 13,354       \\ \hline
+\end{tabular}}
+\caption{Description of the files in the TC1a dataset}
+\label{tab:TC1a}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{|l|p{8cm}|}
+\hline
+Field Name                                                                      & Description                                                                                                                                                  \\ \hline
+Location ID                                                                     & Unique and anonymous ID of the location.                                                                                                                     \\ \hline
+Measurement Description                                                         & - e.g. ‘Electricity supply meter’, ‘solar PV In line monitor’,  ‘consumption in period {[}kWh{]}’, ‘whole home power import’, ‘heat pump power consumption’. \\ \hline
+Parameter Type and Units                                                        & - e.g. ‘Average power {[}kW{]}’, ‘Consumption in period {[}kWh{]}’.                                                                                          \\ \hline
+Date and Time of capture                                                        & In form ‘DD/MM/YYYY hh:mm:ss’                                                                                                                                \\ \hline
+Parameter                                                                       & Typically a single value or a set of columns for each parameter period during the day, parameter type or measurement description.
+Values will be given in decimal notation, typically with 2 or 3 decimal places.
+\\ \hline
+\end{tabular}
+\caption{The data fields of the trial data.}
+\label{tab:TrialDatadef}
+\end{table}
+
+
+
+\begin{table}
+\centering
+\begin{tabular}{|p{2cm}|p{1.5cm}|p{3cm}|p{6cm}|}
+\hline
+Field Name & Type           & Values                                                        & Comments \& Restrictions                                                                                                                                                                      \\ \hline
+Location ID                      & Numeric string & Any                                                           & Uniquely identifies the location.                                                                                                                                                             \\ \hline
+Customer Type                    & string         & “RES”                                                         & The test cell ID may not unambiguously indicate which test cells are residential or SME so the customer type field will indicate this.                                                        \\ \hline
+Test Cell ID                     & string         & Alphanumeric descriptor                                       & This identifies the test cell of which the location is a member. A location can be a member of more than one test cell.                                                                       \\ \hline
+In/Out Region                    & unit           & 0 = not defined1 = in-region2 = out                           & This indicates whether a customer is in or out of Northern Powergrid’s region. For some test cells this is not important and the value may be left as zero (undefined).                       \\ \hline
+Data Valid Start Date            & Date           & Any between 2011 and 2014                                     & This is date of the first day’s data that can be used for analysis.This allows for the fact that customer joining and leaving dates may not coincide directly with the trial monitoring data. \\ \hline
+Data Valid End Date              & Date           & Any between 2011 and 2014; and \textgreater= value in field 7 & This is date of the last day’s data that can be used for analysis. (See ‘Data valid start date’).                                                                                             \\ \hline
+Tariff Type                      & string         & Describes tariff type of the customer                         & Tariff type for each customer.                                                                                                                                                                \\ \hline
+Mosaic Class                     & text           & Any valid Mosaic class                                        & Any non-valid type will be an error                                                                                                                                                           \\ \hline
+\end{tabular}
+\caption{Definitions of the data fields in the Customer Test Cell File}
+\label{tab:CustCellDef}
+\end{table}
+
+\
+

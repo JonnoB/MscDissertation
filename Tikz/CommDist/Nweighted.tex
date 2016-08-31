@@ -1,0 +1,26 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{positioning}
+
+\tikzset{main node/.style={circle,,draw,minimum size=1cm,inner sep=0pt} }
+\begin{document}
+
+\begin{tikzpicture}
+\begin{scope}[on grid]
+
+  \node[main node,fill=blue!40] (1) {$y$};
+  \node[main node,fill=violet!40] (2) [right = 2cm of 1] {$S$};
+  \node[main node,fill=red!40] (3) [right =2cm of 2] {$x$};
+
+    \path[every node/.style={font=\sffamily\small}]
+    (1) edge [->, bend left] node[auto] {1}(2) 
+    (1) edge [<-,bend right] node[below] {$\frac{1}{2+(n-1)n}$}(2)
+    (2) edge [-, loop above] node[above] {$\frac{(n-1)n}{2+(n-1)n}$}(2)
+    
+    (3) edge [<-, bend left] node[below] {$\frac{1}{2+(n-1)n}$}(2)
+
+    ;
+    \end{scope}
+\end{tikzpicture}
+\end{document}

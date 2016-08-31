@@ -1,0 +1,70 @@
+\chapter{Literature Review}
+\label{Literature}
+
+In this chapter we review the relevant literature associated with this work Beginning with a discussion covering smart meter policy, perceptions and interpretations, it then moves on to the current published work using the CLNR data. Current load forecasting methods are discussed using using only portfolio level data and also smart meters. A highlevel overview is given of community detection methods in graphs. Finally socio-demographic detection methods are discussed.
+
+\section{UK energy policy with regards to smart meters}
+Smart meters allow real time or close to real time monitoring of energy consumption by both consumers and suppliers, the UK Government and recent research views smart meters as a key part in moving towards the low carbon economy \cite{clastres2016} and being an aid to reducing electricity bills which would be an aid to fuel poor households  \cite{darby2012}, by giving consumers the power to know when and how to consume power.
+The UK government is investing \pounds10.9 billion between 2014 and 2030 and expects a net benefit of \pounds6.2 billion \cite{smartmetersdiagnosisandplans}. The European Fund for Strategic Investments backed a loan to British Gas (Data provider for this dissertation) for \pounds360 Million to aid with smart meters \cite{primeministersoffice10downingstreet2016}. This major investment obviously not without risks Faruki et al \cite{faruqui2010} believe that there is a gap between the investment costs and the benefits unless there is greater uptake of dynamic pricing. Even if there is an uptake in dynamic pricing behaviours have to actually change, which isn't a given as highlighted by Lopes et al \cite{lopes2016} in a Portugese study who find that consumers reject external control of their consumption behaviours thus making dynamic pricing more reliant on a proactive response to price changes.
+
+There is a lot of research into interpreting the output of Smart meters in order get the most out of the considerable investment.
+Buchanan et al \cite{buchanan2016} Explored Public perception towards Smart meters in the UK  and find that perceptions are mixed, although the public see there are opportunities available with regards lower electricity bills the perceived invasion of privacy is not seen positively. This is worth considering when using data science to uncover hidden information in data from smart meters. Privacy concerns are expanded upon by Mckenna et al  \cite{mckenna2012} who point out that smart meter data is a strong indicator of occupancy, they discuss the concept of data use for "legitimate business applications". Whilst this is worthy of discussion even such a concept is difficult, as there is without doubt large amount of information about customers available from the analysis of electricity consumption that is of commercial value, however it may not be they kind of information that customer would be happy firms knowing about. 
+
+
+\section{Papers using the CLNR data}
+This project utilises the data from the Customer led Network Revolution  \cite{customerlednetworkrevolution}. Several papers have been written using the CLNR data. However none have explicitly used the TC1a data set, described patterns within domestic electricity consumption or attempted to predict electricity domestic demand, The papers that have used the CLNR data are reviewed in the following paragraphs.
+
+A major component related to the success and usefulness of smart-grids is in Load balancing modern distributed generating systems and increased electrification of homes and transport. These two aspects are explored by Dent et al, P.F Lyons et al and Wang et al in the following papers.
+Dent et al \cite{dent2015} propose a new metric called the d Effective Load Carrying Capability (ELCC), for evaluating contribution of distributed generation to reliability of supply within the framework of the Great Britain P2/6 distribution network planning standard. 
+P.F. Lyons et al, write about Electrical Storage solutions for distributed systems \cite{lyons2015} discussing trial design approaches. Energy storage was also explored by Wang Et al \cite{wang2014} although in this case they apply it voltage control within the network, they provide the preparatory work for field trials.
+
+A second aspect is using the information provided by Smart-meters to influence consumption behaviour, this is explored by the remaining three papers. 
+Neaimeh et al \cite{neaimeh2015} use the CLNR data to explore how increased use of electric vehicles affect distribution networks, they find that there is more capacity and flexibility than expected and that charging can be expanded on constrained networks, if there is an extensive chargin infrastructure. Powells et al 2014 \cite{powells2014} write that the forces that control domestic electricity consumption are primarily driven by social conventions not individual characteristics. In 2015 Powell et al \cite{powells2015}, expand on their previous work looking at how Small to Medium sized Enterprises (SMEs) can alter their electricity consumption, they recommend practise theory as a framework for bringing together technical and social aspects of energy use.
+
+This work aims to fill a gap in the research by explicitly working with the TC1a data set and discover the underlying behaviours of domestic electricity consumption and see if these behaviours can yield a method of forecasting consumption.
+
+
+\section{Forecasting load}
+\label{lit:load}
+
+This section reviews the current state of short term load forecasting, it begins by looking at more traditional methods not using smart meters, it then goes on to the more recent field of forecasting using smart meters and the challenges and opportunities presented by such granular data.
+
+\subsection{Forecasting at portfolio Level}
+Load Forecasting is a complex and much studied area of research which can broadly speaking be broken up into three main areas short, medium and long term forecasts. The majority of load forecasting doesn't use smart meters, a summary of recent research is given below. Feinberg and Genethliou \cite{feinberg} discuss the factors that are important to load forecasting such as previous load history, weather and customer classes \cite{Hussain2014}. Customers can be broken into industrial and domestic which effect energy use \cite{homesshowgreatestseasonalvariationinelectricityusetodayinenergyusenergyinformationadministrationeia2013}, whilst domestic use itself can be broken into sub classes based on socio-economic status, family size etc. Ankoush et al \cite{Ankush2015} says that short term forecasting accuracies of between 1-3\% are possible, They also state that day of the week has an effect on load forecasting due to structural changes in behaviour. 
+
+Many modelling approaches are taken, Hussain et al advance using support vector machines \cite{Hussain2014}, a popular method in the load forecasting community, as does Espinoza \cite{Espinoza2007}, the advantage of using kernels is that they can be robust to noisey data and work well with regularisation. Probably the most popular method currently is Neural networks and deep learning approaches, Lauret et al \cite{Lauret2012} discuss a Neural Networks, Bayesian Neural networks and Gaussian Processes, concluding that Bayesian Neural nets are more applicable but that Gaussian Processes have more potential. Although used to some degree regression tree's are not as popular as other methods however the history of research into them goes back a long way with Charytoniuk et all discussing their use in 1998 \cite{Charytoniuk1998}, it is unclear if the lack of recent research is due to the more efficient algorithms or just whether they have fallen out of favour relative to Kernel's and Neural Networks. 
+
+\subsection{Forecasting using smart meters}
+\label{sec:forcesmart}
+With the increased penetration of smart meters a much larger amount of data to analyse is becoming available, this allows for much more detailed and segmented forecasting techniques. Intuitively building individual models for each smart meter would provide more accurate prediction however Sevlian et al \cite{kavousian2013} find that model accuracy at smart meter level is approximately 30\% and increases as the number of smart meters is aggregated to a critical level although they only forecast up to 4 hours ahead. The findings of the previous study are supported by Mirowski et al \cite{mirowski2014}, they use aggregated smart meter data to test a range of forecasting methods and obtain a range of results between 3.5\% and 7\% MAPE for 24 hour ahead forecasting, they use Holt-Winters (4\%), Support Vector Regression (4.5\%), Seasonal Autoegressive Integrated Moving Average (7\%).
+
+\section{Graphs and community detection}
+\label{sec:commdetect}
+
+The basis of this project is inspired by R N Mantegna  \cite{mantegna1999} who popularised the use of graph based clustering in finance. Mantenga finds the structure of stocks by investigating the daily time series logarithm of a stock price. He builds a correlation matrix converting the time series into a weighted graph using $d_{i,j}= \sqrt{2(1-\rho_{i,j})}$. This method became a highly cited research paper related to so called econophysics as well as several influential academic papers focused on complex networks such as S Fortunato's "Community detection in graphs" \cite{fortunato2010}. 
+Fortunato's seminal paper is important as it gives an overview of all clustering techniques for graphs and discusses their strengths and weaknesses. Fortunato covers the traditional methods of graph clustering such as graph partitioning and the hierarchical clustering used by Mantenga, however he also covers more sophisticated techniques such as Dynamic Algorithms, Modularity based algorithms and overlapping methods. As this project is testing an experimental hypothesis not optimising a solution the community detection techniques chosen will focus on speed rather than  maximising cluster appropriateness. In addition for ease of execution only algorithms implemented in the R package \texttt{igraph}. The project will explore 4 algorithms discussed in Fortunato's paper, 3 modularity based methods of the network Fast Greedy \cite{clauset2004}, Louvain \cite{blondel2008}, Infomap \cite{rosvall2008} and 1 dynamic based model Walktrap \cite{pons2006}. The algorithms will be compared on a sample of graphs and the most highly performing will then be chosen for the implementation.
+
+Modularity \cite{newman2006} is a measure of how divisible a network is into it's community components. Generally speaking Modularity is the total number of edges falling within a community minus the number that would be expected within a random graph. It can be defined as shown in equations \ref{eq:mod1} to \ref{eq:mod2}. Modularity methods work to optimise the modularity of the network.
+
+\begin{equation}
+\label{eq:mod1}
+    Q=\frac{1}{2m}\mathbf{s}^T\mathbf{Bs}
+\end{equation}
+where $\mathbf{s}$ is the vector where $s_v$ indicates the community to which the vertex belongs.
+
+\begin{equation}
+    2m=\sum_v k_v
+\end{equation}
+where $K_v$ is the degree of each vertex.
+
+\begin{equation}
+\label{eq:mod2}
+    B_{ij}=A_{ij}-\frac{k_i k_j}{2m}
+\end{equation}
+where $A$ is the adjacency matrix.
+
+
+\section{Predicting socio-demographic class}
+
+Although the use of electricity consumption patterns to detect Mosaic's socio-demographic groups is unusual, making inferences on these groups is not and it is a popular topic amongst marketers \cite{leventhal2016} and civic users \cite{generatingaleedsgeodemographicclassificationapplicationsinpolicycommerceandhealthearthandenvironment2016} \cite{limited2015}. Webber et al \cite{webber2007} discovered that the grouping of the neighbourhood from which a children came from was the factor that had largest single impact on a childs GCSE results, interestingly they found that the neighbourhood of other children at the school also had a large effect hinting at network effects that this dissertation is hoping to exploit. Doos et al \cite{doos2013}, found that the costs associated with hospitalisation due to chronic obstructive pulmonary disease and coronary heart failure vary by Mosaic segementation. Volkova et al \cite{volkova2015} use twitter data to infer sociodemographic data from the emotional content of a tweet, this work is in some ways quite closely linked to this dissertation as it is using behavioural inference to provide and insight that has commercial value. Culotta et al \cite{culotta2015} also use twitter data to infer demographic information with the purpose applying the results to targeted health marketing. The research discussed suggests that detecting socio demographic groups is possible and that the network structure of the data may help facilitate the uncovering of behaviour types associated with particular socio demographic group.
+

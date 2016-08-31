@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{positioning}
+
+\tikzset{main node/.style={circle,,draw,minimum size=1cm,inner sep=0pt} }
+\begin{document}
+
+\begin{tikzpicture}
+\begin{scope}[on grid]
+
+  \node[main node, fill=blue!40] (1) {$y$};
+  \node[main node, fill=violet!40] (2) [right = 2cm of 1] {$S$};
+  \node[main node, fill=red!40] (3) [below =2cm of 2] {$x$};
+ 
+    \path[every node/.style={font=\sffamily\small}]
+    (1) edge [-] node[above] {}(2) 
+    (2) edge [-] node[above] {}(3)
+
+    ;
+    \end{scope}
+\end{tikzpicture}
+\end{document}

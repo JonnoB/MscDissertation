@@ -1,0 +1,98 @@
+\chapter{Discussion and Conclusions}
+\label{conclusions}
+
+This chapter concludes the work done in the project by answering the research questions set in chapter \ref{Intro}, and interpreting  what it means for the electricity industry and consumers. The limitations of the study are also discussed and to what degree it is believed they have affected the results. The whole project is then concluded with some final thoughts and further work is proposed to mitigate some of the limitations or provide more insight into this type of forecasting.
+
+\section{Interpreting the results with regards the research questions}
+
+This project sought to answer the following 4 questions on evening peak electricity consumption.
+\begin{enumerate}
+\itemsep0em 
+    \item Given a weighted graph of evening peak electricity consumption where the adjacency matrix is formed by a minimum correlation requirement and the distance is also a function of correlation. Does unsupervised clustering discover a meaningful set of clusters that represent electricity consumption behaviours across all days in the data set?
+    
+    \item Can the probability distribution produced by the graph be used to create accurate day ahead electrical load forecasts when compared to a linear model?
+    
+    \item It is intuitive to assume that people follow relatively consistent behaviours, for example come home from work and eat dinner at the same time each weekday. If there is consistent behaviour, membership of clusters would be relatively stable. How consistent is cluster membership? Is change between clusters non random? Can day ahead cluster membership be predicted?
+
+    \item Does probability of cluster membership provide any insight into Socio-Demographic group?
+\end{enumerate}
+
+These questions were answered using the TC1a data set from the Customer Led Network Revolution. The data set required extensive cleaning and data munging in order to have high enough quality to perform the analysis necessary to answer the research questions. Once cleaned the data used for the analyse was the period from \hl{XXX} to 01-01-2012 covering a total of 246 days and using 5260 smart meters.  
+In chapter \ref{Results} the cleaned data was developed in to a collection of weighted graphs each representing a single day in the period under analysis. In these graphs each node was a smart meter, edges were present if the Spearmans correlation was higher than 0.7 and the edge weight was proportional to the Spearmans correlation. 
+
+The following paragraphs will describe how each research question was answered and what the answer means in terms of providing insight for companies or value for consumers
+
+\subsection{Does unsupervised clustering provide results that have meaningful interpretation?}
+The results of section \ref{sec:labelling} showed that using unsupervised clustering does provide meaningful results. Using the Louvain clustering algorithm 8 cluster families were detected including the the Soup. The 7 non-Soup clusters were defined by there peaking point giving the following cluster types,  1630, 1700, 1730, 1800, 1830, 1900, 2000, and the Soup. The 1630 and 2000 clusters were multi-modal whilst all the other clusters had a single peak. Across all clusters except the Soup the mean kWh consumed when not at peak was very low. A comparison using the walktrap clustering algorithm returned similar results but with 10 clusters instead of 8. The results show that unsupervised clustering does, discover stable cluster types across time that can be meaningfully interpretex, but that the clusters that are discovered are affected by the algorithm used.
+
+
+\subsection{Can the probability distribution of the clusters be used to forecast day ahead electrical load?}
+The results indicate that the probability distribution of clusters can be used to forecast day ahead electrical load. The transition matrix method out performed the linear model, with a MAPE of 3.9\% compared to a MAPE of just over 5\%. This level of performance is comparable to results found in the literature discussed in section \ref{sec:forcesmart}. The results suggest power companies can reduce their exposure to the day ahead market by using data from smart meters to reduce forecasting uncertainty. This has benefits to the grid, by reducing grid instability, the power company and consumer by reducing  reliance on volatile spot market prices and to the environment by reducing the requirement for spinning reserve and back-up generation to cover for extra load. 
+
+The errors that the model produced, provide insight into the challenges that are faced in order to industrialise the process efficiently. The model had an error spike on the 12-12-2011 a day when there was very little information provided by the smart meters due to some kind of data collection error, shown in figure
+\ref{fig:ResidualsTime}. This error should be considered in the context of the amount of cleaning required to make the data workable (chapter \ref{DataCleaning}). It shows the need for reliable data supplies in order to build and deploy statistical models based on distributed data sources. The other main error produced by the model was in the 1900 cluster as shown in figure \ref{fig:ActualVsPredLine}. This error was caused by the modelling process itself. The clustering method used non-overlapping clusters, resulting in some clusters being only intermittently present (see figure \ref{fig:Clusterocurrance}). The error occurred because the Bayesian approach to node membership prediction which always proposed all clusters, clashed with the hard clustering method which didn't. In winter, the period of the test set, the 1900 cluster was only intermittently present. This meant that the mean cluster profile used to predict the load was out of date, in cases where the weather was considerably different this would cause prediction errors, as shown in figure \ref{fig:BoxTimeErr}.
+
+\subsection{Can cluster membership be predicted?}
+
+The transition model for predicting movement between clusters was not a reliable method of predicting next day transitions. The model had an accuracy of 0.2627 and a $\kappa$ score of 0.1121 indicating that the results were no better than chance, this view was also supported by the p-value of 1 indicating that the model is not predictive. The two XGboost models performed similarly to each other and slightly better than the transition model. The Expanded XGboost model had the best results with an accuracy of 0.3644 and a $\kappa$ of 0.1739. Whilst not a strong performer the XGboost models were definitely better than the transition method. In many ways it is not surprising that the model was not very predictive when considering the analysis of self correlation in figure \ref{fig:MeanAbsCorr}. The figure showed that on average the absolute correlation of a smart meter with itself across multiple days was only 0.3. The low levels of correlation and the difficulty in predicting movement from cluster to cluster is most likely influenced by domestic energy consumption being only 20\% electricity, which is small compared to gas which makes up 60\%. In addition the prediction was compounded by the non-overlapping clustering technique, as mentioned in \ref{sec:NodeClustforce} there were only \hl{XXX} day pairs that had the same clusters. The non-overlapping nature of the clusters meant that borderline cases were perhaps arbitrarily assigned to a cluster depending on how other smart meters had behaved. Being able to predict next day clustering allows the company to send direct messages to consumers advising about high charges providing benefit to both the supplier and the consumer.
+
+\subsection{Can socio-demographic class be inferred from cluster information}
+The results of using an XGboost to predict Mosaic class membership did not perform any better that random. Despite using all cluster transitions for the whole 246 days, the model failed on every metric obtaining a $\kappa$ score of almost zero and failing to provide any meaningful predictions in any of the 16 classes. 
+
+One problem may be that Mosaic infers the socio-demographic class of an area based on data available on that area. This means that households have been classified using an area's  socio-demographic group may not belong in that group but another. However the complete failure of the model to find any pattern suggests that, in this form, clusters are not a useful way to infer consumer socio-demographic groups. A reason for this is that certain peaks may be cross cultural, such a lot of people finish work at 5pm, popular television is on at the same time across all channels and genres, children all finish school at 1530 and so on. These general societal patterns combined with the noise in the Mosaic data can combine to mask any signal that could be present. 
+
+More broadly the use of socio-economic data to make customer inferences should be treated with care. Studies have shown that there is scepticism amongst the public of what companies can find out about them through smart meters \cite{buchanan2016}, and the public may not be positive about companies studying their family life and levels of wealth. However as a major benefit of smart meters is to support fuel poor households \cite{clastres2016}, it is possible that this could be classed as "legitimate business application" as discussed by Mckenna et al \cite{mckenna2012}. The three way balance between, the economic possibilities of more customer insight, the ability to protect vulnerable households, and customers rights to privacy will become an increasingly important issue as technology improves, especially with the ability to disaggregate load to appliance level \cite{kavousian2013} \cite{weiss}.
+
+
+\section{Limitations}
+\begin{itemize}
+    \item \textbf{Geography}: No geographic analysis was performed in this project. As all the data comes from the same part of the north of England it was assumed that the weather patterns and climate would be similar across all homes. There may however be differences especially between coastal and inland residential areas. If the node to cluster prediction model had been strong and the cluster transition model weaker that would have suggested that geography could have an influence on results . However as there were no strong results for individual nodes to cluster prediction and strong results for overall load prediction, it suggests that geography is not an issue.
+
+    \item \textbf{Non-overlapping clusters}: As has been seen throughout this work combining hard clustering techniques with a Bayesian approach to forecasting creates conflicts in prediction results. Although this wasn't a serious issue for load forecasting it was with day ahead cluster membership prediction. Using a soft-clustering approach may provide a more informative view of which cluster nodes will be in the following day.
+
+    \item \textbf{Evening only}: The data only explores the evening peak, this provides several difficulties. With half hourly data there are only 12 time periods with which to calculate the correlation, this is not long enough to check to see if the results were statistically significant as was done by  Mantegna \cite{mantegna1999}, however even if some of the correlations are spurious the consistent results indicate that on aggregate correlating on so few examples was not a problem. 
+    
+    A second issue with using only the evening peak is that it provides no knowledge or insight into the rest of the day or even demonstrates full day applicability. However as the evening peak is of such importance, for suppliers, and contains such large variance, a focus on the evening peak provides the best opportunity to test the model on the part of the day that is most taxing to power companies. It also should be considered that if the number of periods was increased this may have a dramatic effect on the number of clusters as many more behavioural types emerge. A full day solution may be to break the day into chunks, for example, morning rush, day time, evening peak, night. and create behaviours for the distinct day-cycle phases.
+
+    \item \textbf{Out of season transmission matrix}: The transmission matrix was made using data from summer and autumn and used to predict results in winter, which could be problematic as electricity is consumed differently at different times of year. The interesting detail with this prediction method is that only the the node movements are predicted directly not the actual load. This means that unless the patterns of inter cluster movement change from summer to winter, not just the magnitude of consumption, the model will work well. The poor performance of the node cluster prediction model compared to the good performance of the transition load model indicates that this isn't a limitation. If clusters could be predicted with accuracy it would indicate a clear pattern of movement, and thus the possibility that this pattern is also linked to the seasons. However as this is not the case there can also not be any seasonality issues.
+    
+    \item \textbf{Predefined clusters}: As was mentioned in chapter \ref{Method} the transmission matrix is created using clusters from the whole data set and not just the number of days that have occurred. This means that although the matrix doesn't directly include data from the future the definition of a cluster family is informed by events that have not yet happened. It also raises the issue that new clusters could emerge, if for example there were a full years data. Resolving this issue depends a lot on forecast strategy. Recalculating the transmission matrix everyday to take into new account new information is one method, alternatively the transmission matrix could be built and then set so as not to change. Whilst this limitation doesn't invalidate the results it could be considered bad practice.
+    
+    \end{itemize}
+
+
+\section{Conclusion}
+
+The combination of the load profile prediction, the cluster membership prediction and the socio-demographic detection all tie together with the UK government's vision of a low carbon smart grid. By using the data from the smart meters to create accurate load forecasts for day ahead prediction, benefit can be provided to the consumer, supplier and environment. These benefits come from reducing exposure to volatile spot markets, and the requirement to have expensive back up generation online. Although possibly a controversial invasion of privacy the socio-demographic detection of fuel poor households enables the results of the smart meter cluster membership model to identify when consumers are likely to use energy at peak times, this allows the supplier to intervene directly by for example sending a targeted text message or email to the customer suggesting that they use large appliances later or earlier in the day. 
+
+Unfortunately this vision of the future of smart grids where control remains with the consumer is still some way off. Although the load prediction model was successful the smart meter cluster membership did not perform strongly and the socio-demographic detection model did not work at all. 
+
+Some of the problems can be accounted for by data quality issues with the TC1a dataset and the Mosaic socio-demographic labelling system, however other problems are clearly an inherent part of the technique. Most of the problems are related to using a non-overlapping clustering method which leads to clusters not being present on some days and so inducing errors (Cluster 1900 is a good example figures \ref{fig:BoxTimeErr} and \ref{fig:Clusterocurrance}).
+
+In conclusion the use of graph based prediction methods for day ahead load forecasting is an effective tool, that tells the supplier not only how much energy is going to be consumed the following day but also in what way it will be consumed. With some additional work, vulnerable consumers can be provided with support on when to use energy and consumers overall can be provided with a way of making informed decisions on fuel use without surrendering control of household appliances to the electricity supplier. Such a technique is a valuable tool in creating a flexible smart grid for a low carbon future.
+
+
+\section{Contributions}
+The main contributions of the work are as follows
+\begin{itemize}
+\itemsep0em 
+    \item Demonstrating that behavioral patterns can be uncovered using unsupervised clustering on a graph.
+    \item A novel forecasting approach using the probability of transmission between behavioural clusters.
+    \item A Cleaned model of the CLNR TCa1 data set that is ready for data mining with minimal further processing. This dataset will be presented to \href{http://www.nature.com/sdata/about}{Nature: Scientific Data} for publication later in the year.
+    \item A set of functions in R which allow for the visualisation of the structure of large matrices as hierarchically structured heatmaps.
+\end{itemize}
+
+
+\begin{itemize}
+    \item The the transition matrix is made using clusters that have been defined using data that has occurred after the time period of the transition matrix. The assumption is that the number of clusters stabilises with a high enough day count, but this might not be the case. by finding cluster families using distinct time horizons and comparing the make up of those families it would then be clear whether using a static transition matrix is appropriate or whether the family clustering and transition matrix has to be recalculated everyday in order to provide reasonable predictive results
+    
+    \item Using non-overlapping clusters causes several interesting artifacts, such as missing clusters on certain days and very clearly defined cluster profiles. What effect does using overlapping clusters have on the relative size of the clusters each day and how does the load profile of each cluster differ from the load profiles of the non-overlapping case.
+    
+    \item How does the model performance change when a larger part of the energy mix is included such as gas, or comparing with a country where a larger percentage of household energy is electricity such as Norway.
+
+    \item The low levels of electricity use means that there is high volatility, performing the same analysis again but using volatility as the graph edge metric, would maybe help stratify consumers into low and high levels of predictability which would be useful for hedging strategies.
+    
+    \item The Cluster Transition matrix was created using all 5260 nodes, however similar to the findings of \cite{kavousian2013} on a large network it may provide diminishing returns to use increasingly large amounts of nodes. Likewise the number of days required for the transition matrix to converge to stability is also unknown. It would be useful to map the parameter space of node number and time horizon required to create a transition matrix that had a KL divergence of zero. Having this knowledge would allow Energy companies to reduce the amount of bandwidth taken up by smart meter data transfer whilst maintaining the same forecasting ability.
+    
+    \item Due to the cyclical nature of electricity consumption (see Literature review \ref{lit:load}) the transition matrix can also be split by day of the week, this would make the transition matrix larger but may give more accurate results capturing within week transition probabilities. An exploration of how clusters should be defined, e.g day to day, weekday to weekend, day of the week, etc, could give a better understanding of how to optimise the transition matrix for accuracy.
+\end{itemize}
