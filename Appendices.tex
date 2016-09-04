@@ -12,6 +12,14 @@ This appendix hold the additional plots and tables that provide contextual infor
 
 \begin{figure}
     \centering
+    \includegraphics[width = \textwidth]{Figures/Appendix/logenergydensity}
+    \caption[Log energy density]{The $log_{10}$ plot of the density shown in Figure \ref{fig:energydensity}. It can be seen that the distribution of this data is approximately normal in log space.}
+    \label{fig:logenergydensity}
+\end{figure}
+
+
+\begin{figure}
+    \centering
     \includegraphics[width = \textwidth]{Figures/Appendix/AllNodesClustercolour}
     \caption[All Nodes for one day]{The distinct cluster forms can be seen across all the clusters, the soup node has no pattern and is clearly just noise.}
     \label{fig:AllNodesClustercolour}
@@ -25,16 +33,14 @@ This appendix hold the additional plots and tables that provide contextual infor
     \label{fig:AllCLustFamilies}
 \end{figure}
 
+\FloatBarrier
+
 \section{Additional tables}
 \input{Tables/clustrans}
-
-\chapter{Visualising Large Data Sets Using Aggregated Heatmaps}
-\label{app:heatmaps}
+\input{Tables/DayPairs}
 
 \input{XAppendCommunityDistance}
 
-\chapter{Smart Meters used in the Project}
-\label{app:smartmeters}
 
 \chapter{UK domestic Energy breakdown}
 \label{sec:Energybreakdown}
@@ -89,7 +95,7 @@ The flow charts in this section provide a visual representation of how the proje
 \chapter{Colophon}
 \label{appendixlabel3}
 This document was set in the Times Roman typeface using \LaTeX\ and Bib\TeX , composed with ShareLaTeX using the UCL thesis template developed by Ian Kirker. Template Sourcecode can be obtained either through the ShareLaTeX setup wizard or on \href{https://github.com/UCL/ucl-latex-thesis-templates/blob/master/Main.tex}{UCL's Github account}.
-The compilable script for this full thesis can be found at \href{https://github.com/JonnoB}{Jonathan Bourne's Github account}. For sharpness, images were imported as PDF files, or if that was not possible as PNG's. All figures were made using R's ggplot2 package, graphs were visualised using either igraph \cite{csrdi2006} or Gephi \cite{bastian2006}.
+The compilable script for this full thesis can be found at \href{https://github.com/JonnoB/MscDissertation}{MscDissertation}. For sharpness, images were imported as PDF files, or if that was not possible as PNG's. All figures were made using R's ggplot2 package, graphs were visualised using either igraph \cite{csrdi2006} or Gephi \cite{bastian2006}.
  % description of document, e.g. type faces, TeX used, TeXmaker, packages and things used for figures. Like a computational details section.
 % e.g. http://tex.stackexchange.com/questions/63468/what-is-best-way-to-mention-that-a-document-has-been-typeset-with-tex#63503
 
@@ -100,7 +106,7 @@ The compilable script for this full thesis can be found at \href{https://github.
 \label{TechComp}
 
 Computation was performed using cloud computing was performed on amazon EC2 instance. 
-The specifications of the instance was scaled according to computational requirements of the specific operation being performed but mostly using the instance shown in table \ref{tab:Machspec}. The image used on the EC2 was obtained from the website of \href{http://www.louisaslett.com/RStudio_AMI/}{Louis Aslett}. All calculations were performed using \href{https://www.r-project.org/}{R} version ' Bug in Your Hair' (3.3.1)  \cite{rcoreteam2016}. Packages used can be seen in section \ref{sec:packages}. Gephi version 0.9.1 was used for graph visualisation. Source code was managed using Github through Github windows desktop application version "Oh Darth, Where Art Thou?" (3.1.1.4).
+The specifications of the instance was scaled according to computational requirements of the specific operation being performed but mostly using the instance shown in table \ref{tab:Machspec}. The image used on the EC2 was obtained from the website of \href{http://www.louisaslett.com/RStudio_AMI/}{Louis Aslett}. All calculations were performed using \href{https://www.r-project.org/}{R} version ' Bug in Your Hair' (3.3.1)  \cite{rcoreteam2016}. Packages used can be seen in section \ref{sec:packages}. Gephi version 0.9.1 was used for graph visualisation. Source code was managed using Github through Github windows desktop application version "Oh Darth, Where Art Thou?" (3.1.1.4), For reproducibility the code for this project can be found at \href{https://github.com/JonnoB/SmartMeterThesisCode}{SmartMeterThesisCode}.
 
 \begin{table}[h]
 \centering
@@ -118,7 +124,7 @@ RAM       & 16Gb                      \\ \hline
 \begin{figure}
     \centering
     \includegraphics[width = \textwidth]{Figures/Appendix/SoftwareType}
-    \caption[Software use]{Breakdown of the time used on each software type in this project.}
+    \caption[Software used]{Breakdown of the time used on each software type in this project.}
     \label{fig:SofwareType}
 \end{figure}
 

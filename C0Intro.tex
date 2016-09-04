@@ -1,11 +1,11 @@
 \chapter{Introductory Material}
 \label{Intro}
 
-How can the investment in smart meter technology be leveraged to provide value for electricity suppliers, domestic consumers and the environment? This data dissertation seeks to create a day ahead forecasting model and two additional classification models one that predicts the behaviour of customers day ahead and the second that detects the socio-demographic group of customers thus identifying those at risk of being fuel poor. The outcome of successfully creating these models will be a framework of models that reduce costs to consumers, decrease suppliers exposure to the day ahead market and reduce the need for spinning reserve and back up generation.
+How can investments in smart meter technology be leveraged to provide value for electricity suppliers, domestic consumers and the environment? This data dissertation seeks to create a day ahead forecasting model and two additional classification models one that predicts the behaviour of customers day ahead and the second that detects the socio-demographic group of customers thus identifying those at risk of being fuel poor. The outcome of successfully creating these models will be a framework of models that reduce costs to consumers, decrease suppliers exposure to the day ahead market and reduce the need for spinning reserve and back up generation.
 
 The dissertation will use graph structures to find the relationships between smart meters, the advantage of using a graph is that loose groups of similar smart meters can be uncovered even when there is a non-linear relationship between them. In order to make the graph more representative of reality it will be weighted, this means that smart meter pairs that are more similar in their behaviour will have a stronger connection than smart meters pairs that are less similar.
 
-The data used in this project comes from the CLNR (Customer Led Network Revolution) \cite{customerlednetworkrevolution}, the UK's largest smart meter research project \cite{durhamenergyinstitutecustomerlednetworkrevolutiondurhamuniversity}. The goal of the project was to find applications of smart meters that will help move the UK towards a low carbon energy economy.
+The data used in this project comes from the CLNR (Customer Led Network Revolution) \cite{customerlednetworkrevolution}, the UK's largest smart meter research project \cite{durhamenergyinstitutecustomerlednetworkrevolutiondurhamuniversity}. The CLNR of the project was to find applications of smart meters that will help move the UK towards a low carbon energy economy.
 
 \section{Research Questions}
 The questions we seek to answer in this dissertation are as follows.
@@ -25,16 +25,16 @@ The questions we seek to answer in this dissertation are as follows.
 
 \begin{enumerate}
 \setcounter{enumi}{0}
-\item \textbf{Literature review}: The Literature review provides a context for the project discussing the UK governments investment and strategy for smart meters, reviewing key government papers on smart meter strategy as well as academic research exploring how the investment in smart meters can help create a low carbon economy. It then looks at the work that has been done using the CLNR data, discussing their importance and stating the gap in research using the data that this dissertation seeks to fill. The literature review then provides a brief overview of electrical load forecasting methods both at portfolio level and using smart meters. Finally it discusses different approaches to detecting socio-demographic groupings using data.
+\item \textbf{Literature Review}: The Literature review provides a context for the project discussing the UK governments investment and strategy for smart meters, reviewing key government papers on smart meter strategy as well as academic research exploring how the investment in smart meters can help create a low carbon economy. It then looks at the work that has been done using the CLNR data, discussing their importance and stating the gap in research using the data that this dissertation seeks to fill. The literature review then provides a brief overview of electrical load forecasting methods both at portfolio level and using smart meters. Finally it discusses different approaches to detecting socio-demographic groupings using data.
 
 \item \textbf{Data Description}: This chapter describes the entire dataset from the Customer Led Network Revolution focusing on the TC1a dataset that is used for this project. The purpose is to give a picture of the raw data that was available, its structure and provenance before any processing was performed. 
 
-\item \textbf{Data Cleaning}: Due to the complexity of the data cleaning required before analysis could begin, the data cleaning was placed in a separate chapter. This was to help make it clear what processing steps were taken to produce the dataset used for the analysis. The data cleaning process is summarised in the flow chart shown in the Appendix \ref{fig:CleanFlow}
+\item \textbf{Data Cleaning}: Due to the complexity of the data cleaning required before analysis could begin, the data cleaning was placed in a separate chapter. This was to help make it clear what processing steps were taken to produce the dataset used for the analysis. The data cleaning process is summarised in the flow chart shown in the Figure \ref{fig:CleanFlow}
 
 
 \item \textbf{Methodology}: This chapter builds the theoretical and practical basis for the dissertation explaining and defining the techniques and concepts used, so that the project can be more easily reproduced or built upon. A flow chart of the method can be see in the appendix as figure \ref{fig:ProcessFlow}
 
-\item \textbf{Results}: The chapter implements the methodology chapter finding that stable meaningful clusters can be discovered using unsupervised methods, that the distributions created by the clusters can be used as a predictive model at portfolio level, but that predicting the movements of individual smart meters is only partially successful when using the XGboost algorithm. Finally socio-demographic detection is found to be not possible using the cluster based method.
+\item \textbf{Results}: The chapter implements the methodology chapter finding that stable meaningful clusters can be discovered using unsupervised methods. The distributions created by the clusters can be used as a predictive model at portfolio level. Predicting the movements of individual smart meters is not sucessful when using the transition method and only partially when using the XGboost algorithm. Finally socio-demographic detection is found to be not possible using the cluster based method.
 
 \item \textbf{Conclusions}: The conclusion provides a more detailed interpretation and discussion of the results in relation to the research questions, discusses the limitations of the study before summing up the benefits of the method and providing suggestions for further work.
 
@@ -47,7 +47,8 @@ The main contributions of the work are as follows
 \itemsep0em 
     \item Demonstrating that behavioral patterns can be uncovered using unsupervised clustering on a graph.
     \item A novel forecasting approach using the probability of transmission between behavioural clusters.
-    \item A Cleaned model of the CLNR TCa1 data set that is ready for data mining with minimal further processing. This dataset will be presented to \href{http://www.nature.com/sdata/about}{Nature: Scientific Data} for publication later in the year.
+    \item A Cleaned model of the CLNR TC1a data set that is ready for data mining with minimal further processing. This dataset will be presented to \href{http://www.nature.com/sdata/about}{Nature: Scientific Data} for publication later in the year.
+    \item Evidence of the potential that an individual's behaviour can be predicted by exploiting non-linear relationships in cluster membership probability.
     \item A set of functions in R which allow for the visualisation of the structure of large matrices as hierarchically structured heatmaps.
 \end{itemize}
 
@@ -56,8 +57,9 @@ The main contributions of the work are as follows
 Certain key terms are integral to understanding the project, they are defined below.
 \begin{itemize}
 \itemsep0em 
-    \item Cluster: A "cluster" or "community" of nodes are members of a graph that share certain common features such that they can be classed as a distinct group. A graph can have multiple clusters that each describe a different group of features. It should be noted that nodes do not need to share an edge to be in the same cluster as is shown in figure \ref{fig:day100-90}. For the purposes of this project the correlation of the node load profile will be the determining feature and clusters are non-overlapping meaning nodes can only be a member of a single cluster.
+    \item Cluster: A "cluster" or "community" of nodes are members of a graph that share certain common features such that they can be classed as a distinct group. A graph can have multiple clusters that each describe a different group of features. It should be noted that nodes do not need to share an edge to be in the same cluster as is shown in figure \ref{fig:day100-90}. For the purposes of this project the correlation of the node load profile will be the determining feature. Clusters are non-overlapping meaning nodes can only be a member of a single cluster.
     \item Cluster Family: A cluster of clusters, A Cluster Family is a label that identifies similar clusters across days. An example would be the "1830" family, which describes those clusters that peak at 1830. A cluster family allows for the evaluation and analysis of clusters through time.
-    \item Load: refers to the amount of kWh used per unit of time, in this project time is broken in to half hour periods.
-    \item Soup: The "Soup" or "Node Soup" refers to the nodes that are not in any of the major Cluster Families, This includes nodes that are in a cluster that was below the threshold number of 50 nodes, or was in a cluster whose cluster family was below the the required total node volume across the whole period. Any unconnected nodes are automaically in the Node Soup, however nodes can be connected and still part of the Soup.
+    \item Load: refers to the amount of kWh used per unit of time. In this project time is broken in to half hour periods.
+    \item Smart meter: A modern version of traditional energy meters, that provide real time accurate readings of energy consumption and can communicate with the energy supplier \cite{whatisasmartmeterhowdoesasmartmeterwork}\cite{departmentforbusinessenergyindustrialstrategy2013}. Smart meters can measure either electricity or gas, in this project only electricity smart meters are used. During this project the word node refers to a smart meter.
+    \item Soup: The "Soup" or "Node Soup" refers to the nodes that are not in any of the major Cluster Families, This includes nodes that are in a cluster that was below the threshold number of 50 nodes, or was in a cluster whose cluster family was below the the required total node volume of 1\% across the whole period. Any unconnected nodes are automaically in the Node Soup, however nodes can be connected and still part of the Soup.
     \end{itemize}
